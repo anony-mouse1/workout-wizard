@@ -1,9 +1,9 @@
+import streamlit as st
 import cv2
 import mediapipe as mp
 import numpy as np
 import pandas as pd
 import tempfile
-import streamlit as st
 
 
 #demo video 

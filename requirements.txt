@@ -85,6 +85,7 @@ notebook_shim==0.2.3
 numpy==1.25.1
 opencv-contrib-python==4.8.0.76
 opencv-python==4.8.0.74
+opencv-python-headless==4.6.0.66
 orjson==3.9.7
 overrides==7.4.0
 packaging==23.1

@@ -13,7 +13,7 @@ import streamlit as st
 
 #mediapipe inbuilt solutions 
 mp_face_detection = mp.solutions.face_detection
-mp_drawing = mp.solutions.drawing_utilspip install opencv-python
+mp_drawing = mp.solutions.drawing_utils
 st.set_page_config(layout="wide")
 
 

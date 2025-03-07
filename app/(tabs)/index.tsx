@@ -1,74 +1,116 @@
-import { Image, StyleSheet, Platform } from 'react-native';
+import React from 'react';
+import { StyleSheet, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { useRouter } from 'expo-router';
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+import { Text, View } from '../../components/ThemedText';
 
 export default function HomeScreen() {
+  const router = useRouter();
+
+  const workouts = [
+    {
+      id: 1,
+      name: 'Bicep Curls',
+      description: 'Track your bicep curl form and count reps',
+      image: require('../../assets/images/react-logo.png'),
+    },
+    {
+      id: 2,
+      name: 'Squats',
+      description: 'Perfect your squat form with real-time feedback',
+      image: require('../../assets/images/react-logo.png'),
+    },
+    {
+      id: 3,
+      name: 'Push-ups',
+      description: 'Count push-ups and check your form',
+      image: require('../../assets/images/react-logo.png'),
+    },
+  ];
+
+  const navigateToWorkout = (workout) => {
+    router.push({
+      pathname: '/WorkoutTracking',
+      params: { workout: JSON.stringify(workout) }
+    });
+  };
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12'
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.title}>Workout Wizard</Text>
+        <Text style={styles.subtitle}>Choose a workout to track</Text>
+      </View>
+
+      <ScrollView style={styles.workoutList}>
+        {workouts.map((workout) => (
+          <TouchableOpacity
+            key={workout.id}
+            style={styles.workoutCard}
+            onPress={() => navigateToWorkout(workout)}
+          >
+            <Image source={workout.image} style={styles.workoutImage} />
+            <View style={styles.workoutInfo}>
+              <Text style={styles.workoutName}>{workout.name}</Text>
+              <Text style={styles.workoutDescription}>{workout.description}</Text>
+            </View>
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
+  container: {
+    flex: 1,
+    padding: 20,
+  },
+  header: {
+    marginBottom: 30,
     alignItems: 'center',
-    gap: 8,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  title: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    marginBottom: 5,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  subtitle: {
+    fontSize: 16,
+    opacity: 0.7,
+  },
+  workoutList: {
+    flex: 1,
+  },
+  workoutCard: {
+    flexDirection: 'row',
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    padding: 15,
+    marginBottom: 15,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  workoutImage: {
+    width: 70,
+    height: 70,
+    borderRadius: 35,
+    marginRight: 15,
+  },
+  workoutInfo: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  workoutName: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 5,
+  },
+  workoutDescription: {
+    fontSize: 14,
+    opacity: 0.7,
   },
 });
